@@ -1,8 +1,20 @@
-if #{...} ~= 2 then return end
-
 local a = {...}
 
-local f = io.open(a[1], "w")
-local p = http.get("http://pastebin.com/raw.php?i="..a[2])
-f:write(p.readAll())
-f:close()
+--If there is no target exit
+--Should be a pastebin page hash
+if #a ~= 1 then return end
+
+--Get all the data from the page
+local pageText = http.get("http://pastebin.com/raw.php?i="..a[1]).readAll()
+
+for name, addr in string.gmatch(pageText, "([%w%-/]+) (http://[%w%.%-%?/=]+)") do
+  --Check if this path contains directories
+  if #name ~= #fs.getName(name) then
+    --If so then create them
+    fs.makeDir(name:sub(1, name:find(fs.getName(name).."$")-1))
+  end
+  local f = io.open(name, "w")
+  local p = http.get(addr).readAll()
+  f:write(p)
+  f:close()
+end
