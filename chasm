@@ -1,0 +1,12 @@
+local t = turtle
+local m = mine
+
+local args = {...}
+local x = tonumber(args[1])
+local y = tonumber(args[2])
+local z = tonumber(args[3])
+
+while z > 0 do
+  
+  z = z - 3
+end

@@ -1,0 +1,30 @@
+local t = turtle
+
+function cactPiller()
+  for i = 1, 3 do
+    t.up()
+    t.select(i)
+    t.placeDown()
+  end
+
+  t.forward()
+  t.forward()
+  --[[
+  t.turnRight()
+  t.turnRight()
+  t.select(1)
+  t.place()
+  t.turnLeft()
+  t.turnLeft()
+  --]]
+  for i=1,3 do
+   t.down()
+  end
+end
+
+local args = {...}
+if #args == 1 then
+  for i=1,tonumber(args[1]) do
+    cactPiller()
+  end
+end

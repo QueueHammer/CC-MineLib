@@ -1,0 +1,29 @@
+local t = turtle
+
+function seek(comp, extract, move, next, unmove)
+  if comp() then
+    extract()
+    move()
+    next()
+    unmove()
+  end
+end
+
+function scourageForward()
+  seek(t.compare, t.dig, t.forward, scourage, t.back)
+end
+
+function scourage()
+  for i=1,4 do
+    scourageForward()
+    t.turnRight()
+  end
+  seek(t.compareUp, t.digUp, t.up, scourage, t.down)
+  seek(t.compareDown, t.digDown, t.down, scourage, t.up)
+end
+
+t.select(1)
+t.dig()
+t.forward()
+scourage()
+t.back()

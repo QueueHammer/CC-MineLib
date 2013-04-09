@@ -1,0 +1,14 @@
+local args = {...}
+local t = turtle
+if #args > 0 then
+  local fuelSlot = tonumber(args[1])
+  t.select(fuelSlot)
+  
+  local fuelStack = t.getItemCount(fuelSlot)
+  if #args == 2 then
+    fuelStack = tonumber(args[2])
+  end
+  t.refuel(fuelStack)
+end
+
+print(turtle.getFuelLevel())

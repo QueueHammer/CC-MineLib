@@ -1,0 +1,73 @@
+--[[
+This is a stand alone version of the
+Advanced Trutle Notation utillity script
+--]]
+local t = turtle
+local p = {...}
+local a = p[1]
+
+function SmartDigging(dtct, dig)
+  while dtct() do
+    dig()
+    os.sleep(1)
+  end
+end
+
+function SmartDig()
+  SmartDigging(t.detect, t.dig)
+end
+
+function SmartDigUp()
+  SmartDigging(t.detectUp, t.digUp)
+end
+
+--Each key maps to a action
+function doActions(acts)
+  for c in acts:gmatch(".") do
+    if c == "q" then t.down()
+    elseif c == "w" then t.forward()
+    elseif c == "e" then t.up()
+    elseif c == "a" then t.turnLeft()
+    elseif c == "s" then t.back()
+    elseif c == "d" then t.turnRight()
+    elseif c == "z" then t.digDown()
+    elseif c == "x" then SmartDig()
+    elseif c == "c" then SmartDigUp()
+    elseif c == "r" then t.placeDown()
+    elseif c == "t" then t.place()
+    elseif c == "y" then t.placeUp()
+    else print ("no action for: "..c) end
+  end
+end
+
+function parse(s)
+  local actStr = s:match("^[qweasdzxcrty]+")
+  local repStr = s:match("^%d+%(")
+  if actStr == nil and repStr == nil then
+    return
+  end
+  if actStr ~= nil then
+    doActions(actStr)
+    parse(s:sub(#actStr+1, #s))
+  end
+  if repStr ~= nil then
+    local loop = tonumber(repStr:sub(1, #repStr - 1))
+    local wStr = s:sub(#repStr+1)
+    local pCount = 1
+    local len = 0
+    for c in wStr:gmatch(".") do
+      len = len + 1
+      if c == "(" then pCount = pCount + 1 end
+      if c == ")" then pCount = pCount - 1 end
+      if pCount == 0 then
+        break
+      end
+    end
+    for i = 1,loop do
+      parse(wStr:sub(0, len - 1))
+    end
+    parse(wStr:sub(len + 1))
+  end
+end
+
+parse(a)

@@ -1,0 +1,45 @@
+local height = 0
+local t = turtle
+t.select(1)
+t.dig()
+t.forward()
+while t.detectUp() do
+  t.digUp()
+  t.up()
+  height = height + 1
+end
+if (turtle.detect()) then
+  t.dig()
+  t.forward()
+  t.turnRight()
+  if(t.detect()) then
+    t.dig()
+    t.forward()
+    t.turnRight()
+    t.dig()
+  else
+    t.turnRight()
+    t.turnRight()
+    t.dig()
+    t.forward()
+    t.turnLeft()
+    t.dig()
+    t.turnLeft()
+  end
+  for i=1,height do
+    if t.detectDown() then
+      t.digDown()
+      t.down()
+      t.dig()
+      t.turnRight()
+      t.dig()
+      t.turnLeft()
+    else
+      t.down()
+    end
+  end
+else
+  for i=1,height do
+    t.down()
+  end
+end

@@ -1,0 +1,8 @@
+if #{...} ~= 2 then return end
+
+local a = {...}
+
+local f = io.open(a[1], "w")
+local p = http.get("http://pastebin.com/raw.php?i="..a[2])
+f:write(p.readAll())
+f:close()

@@ -1,0 +1,79 @@
+local t = turtle
+local safeSleep = 1
+
+function SmartDigging(dtct, dig)
+  while dtct() do
+    dig()
+    os.sleep(safeSleep)
+  end
+end
+
+function smartDig()
+  SmartDigging(t.detect, t.dig)
+end
+
+function smartDigUp()
+  SmartDigging(t.detectUp, t.digUp)
+end
+
+function digForward()
+  local moved = false
+  while not moved do
+    t.dig()
+    moved = t.forward()
+  end
+  return true
+end
+
+function mineNx1x3(n)
+  for i=1,n do
+    --smartDig()
+    --t.forward()
+    digForward()
+    smartDigUp()
+    t.digDown()
+  end
+end
+
+function mine1xNx3(n, right)
+  local nWidth = n - 1
+  local fTurn, sTurn = nil, nil
+  if right then
+    fTurn = t.turnRight
+    sTurn = t.turnLeft
+  else
+    fTurn = t.turnLeft
+    sTurn = t.turnRight
+  end
+  mineNx1x3(1)
+  fTurn()
+  mineNx1x3(nWidth)
+  sTurn()
+end
+
+function purgeCrap(crapSlots)
+  for _,cSlot in ipair(crapSlots) do
+    for i = 1,16 do
+      if cSlot ~= i then
+        t.select(i)
+        if t.compareTo(cSlot) then
+          t.drop()
+        end
+      end
+    end
+    t.select(cSlot)
+    t.drop(t.getItemCount(cSlot)-1)
+  end
+  t.select(1)
+end
+
+function placeTorch()
+  t.select(15)
+  t.placeDown()
+  t.select(1)
+end
+
+function callAtn(actions)
+  shell.run("/atn", actions)
+end
+

@@ -1,0 +1,7 @@
+local args = {...}
+
+if #args ~= 1 then
+  os.setComputerLabel(args[1])
+end
+
+print("Computer Label: "..os.getComputerLabel())

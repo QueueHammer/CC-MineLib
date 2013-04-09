@@ -1,0 +1,19 @@
+local t = turtle
+local args = {...}
+
+if #args ~= 2 then return end
+
+local l = tonumber(args[1])
+local w = tonumber(args[2])
+
+t.turnLeft()
+local right = t.detect()
+t.turnRight()
+t.up()
+
+for i=1,l do
+  mine.mine1xNx3(w, right)
+  right = not right
+end
+
+t.down()

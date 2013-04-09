@@ -1,0 +1,11 @@
+local args = {...}
+if #args ~= 1 then return end
+
+local files = fs.list(args[1])
+for _, file in ipairs(files) do
+  local newPath = fs.combine(args[1], file)
+  if not fs.isDir(newPath) then
+    fs.copy(newPath, file)
+    print("Copied: "..file)
+  end
+end

@@ -1,0 +1,14 @@
+local height = 0
+local t = turtle
+t.select(1)
+t.dig()
+t.forward()
+while t.compareUp() do
+  t.digUp()
+  t.up()
+  height = height + 1
+end
+for i=1,height do
+  t.down()
+end
+

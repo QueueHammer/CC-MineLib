@@ -1,0 +1,27 @@
+local args = {...}
+if #args ~= 2 then
+  print("Please enter a source and destination.")
+  return
+end
+
+local source = args[1]
+local dest = args[2]
+
+function copyAll(s, d)
+  for _, file in ipairs(fs.list(s)) do
+    local nSrc = fs.combine(s, file)
+    local nDst = fs.combine(d, file)
+    if fs.exists(nDst) then
+      fs.delete(nDst)
+    end
+    if fs.isDir(nSrc) then      
+      fs.makeDir(nDst)
+      copyAll(nSrc, nDst)
+    else
+    fs.copy(nSrc, nDst)
+    print("Copied: "..file)
+    end
+  end
+end
+
+copyAll(source, dest)

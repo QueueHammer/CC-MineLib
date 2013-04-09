@@ -1,0 +1,14 @@
+local args = {...}
+if #args ~= 1 then return end
+
+local base = args[1]
+
+local backupPath = fs.combine(base, "util/backup")
+shell.run(backupPath, base, "/")
+
+--Install API
+local apiSource = fs.combine(base, "/api/mine")
+
+print("Loading API: "..apiSource)
+os.unloadAPI(apiSource)
+os.loadAPI(apiSource)
